@@ -1,3 +1,4 @@
+import "@/styles/globals.scss";
 import NProgress from "nprogress";
 import type { AppProps } from "next/app";
 
