@@ -2,15 +2,16 @@ import Head from "next/head";
 import {
   useAddUser,
   useDeleteUser,
-  useGetPosts,
+  useGetUser,
   useGetUsers,
   useUpdateUser,
 } from "../hooks";
 import styles from "../styles/Home.module.css";
 
 export default function Home() {
-  const { data } = useGetPosts();
-  const { data: users } = useGetUsers();
+  // const { data } = useGetPosts();
+
+  const { data: users } = useGetUsers(); /** get a list */
   const mutationAddUser = useAddUser((oldUsers, newUser) => [
     newUser,
     ...oldUsers,
@@ -20,6 +21,7 @@ export default function Home() {
   );
 
   const userUpdateMutation = useUpdateUser(1);
+  /** add a new data */
   const onAdd = async () => {
     try {
       await mutationAddUser.mutateAsync({
@@ -29,16 +31,21 @@ export default function Home() {
     } catch (error) {}
   };
 
+  /** delete a user */
   const deleteUser = async (id: number) => {
     await deleteMutation.mutateAsync(id);
   };
 
+  /** update a single user */
   const updateUser = (id: number) => {
     userUpdateMutation.mutate({
       name: "Test",
       id,
     });
   };
+
+  /** fetch a single data */
+  const { data: user } = useGetUser(1);
 
   return (
     <div className={styles.container}>
@@ -51,15 +58,13 @@ export default function Home() {
       <main className={styles.main}>
         <div>
           <ul>
-            {users?.map(user => (
+            {users?.map(el => (
               <li className="my-2" key={user?.id}>
                 <div className="flex justify-between">
-                  <p>{user.name} </p>
+                  <p>{el.name} </p>
                   <div>
-                    <button onClick={() => deleteUser(user?.id)}>
-                      Delete{" "}
-                    </button>
-                    <button onClick={() => updateUser(1)}>Edit</button>
+                    <button onClick={() => deleteUser(el?.id)}>Delete </button>
+                    <button onClick={() => updateUser(el.id)}>Edit</button>
                   </div>
                 </div>
               </li>

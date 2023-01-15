@@ -28,3 +28,9 @@ export const useUpdateUser = (id: number) =>
     url: `https://jsonplaceholder.typicode.com/users/${id}`,
     params: { id },
   });
+
+export const useGetUser = (id: number) =>
+  useFetch<IData>({
+    url: `https://jsonplaceholder.typicode.com/users/${id}`,
+    params: { id },
+  });
