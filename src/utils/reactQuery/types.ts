@@ -20,6 +20,7 @@ export interface TMutation<T, S> {
   url: string;
   params?: object;
   updater?: ((oldData: T, newData: S) => T) | undefined;
+  key?: string;
 }
 export interface TDeleteMutation<T> {
   url: string;

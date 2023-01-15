@@ -1,7 +1,7 @@
 import Axios, { AxiosInstance } from "axios";
 import { IAxios } from "./reactQuery/types";
 const instance = Axios.create({
-  baseURL: "https://api.test.com",
+  baseURL: "https://jsonplaceholder.typicode.com",
 });
 
 const api = (axios: AxiosInstance) => {

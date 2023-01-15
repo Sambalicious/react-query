@@ -1,4 +1,5 @@
 import Head from "next/head";
+import { useState } from "react";
 import {
   useAddUser,
   useDeleteUser,
@@ -11,6 +12,8 @@ import styles from "../styles/Home.module.css";
 export default function Home() {
   // const { data } = useGetPosts();
 
+  const [selectedUser, setSelectedUser] = useState<number | null>();
+
   const { data: users } = useGetUsers(); /** get a list */
   const mutationAddUser = useAddUser((oldUsers, newUser) => [
     newUser,
@@ -20,7 +23,7 @@ export default function Home() {
     oldUsers.filter(user => user.id !== id),
   );
 
-  const userUpdateMutation = useUpdateUser(1);
+  const userUpdateMutation = useUpdateUser(selectedUser!);
   /** add a new data */
   const onAdd = async () => {
     try {
@@ -38,6 +41,7 @@ export default function Home() {
 
   /** update a single user */
   const updateUser = (id: number) => {
+    setSelectedUser(id);
     userUpdateMutation.mutate({
       name: "Test",
       id,
@@ -45,7 +49,7 @@ export default function Home() {
   };
 
   /** fetch a single data */
-  const { data: user } = useGetUser(1);
+  const { data: user } = useGetUser(selectedUser!);
 
   return (
     <div className={styles.container}>
@@ -64,7 +68,7 @@ export default function Home() {
                   <p>{el.name} </p>
                   <div>
                     <button onClick={() => deleteUser(el?.id)}>Delete </button>
-                    <button onClick={() => updateUser(el.id)}>Edit</button>
+                    <button onClick={() => updateUser(el?.id)}>Edit</button>
                   </div>
                 </div>
               </li>
